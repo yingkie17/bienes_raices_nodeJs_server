@@ -1,0 +1,30 @@
+[33mcommit 80a5c7eeeb571ea943342229944da88434832b2d[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Merge: badb8be 8201444
+Author: yingkie17 <yingkie17@gmail.com>
+Date:   Mon Jan 8 22:02:22 2024 -0400
+
+    Prueba1 realizando deploy
+
+[33mcommit badb8be542d3d1c468ab36c85f73202517f67b7d[m
+Author: yingkie17 <yingkie17@gmail.com>
+Date:   Mon Jan 8 21:43:34 2024 -0400
+
+    Prueba1 realizando un deploy en render desde Nodejs, se cambio en el server la direccion ip y en config se añadio un pool
+
+[33mcommit 8201444cfaf1b0e2f6c985f40e3a293023b808f9[m
+Author: Hebert  Y. Lee Covarrubias <49968012+yingkie17@users.noreply.github.com>
+Date:   Sun Jan 7 14:28:32 2024 -0400
+
+    Update Configuracion de Nodejs en el archvio config.js para Postgresql
+
+[33mcommit 13febf430f7eb068afb9cc43f9b0331bc678b1af[m
+Author: Hebert  Y. Lee Covarrubias <49968012+yingkie17@users.noreply.github.com>
+Date:   Sun Jan 7 13:42:38 2024 -0400
+
+    Update de Puerto
+
+[33mcommit 13617481d6ee3e4b1a06367598fd82051f23b4b7[m
+Author: yingkie17 <yingkie17@gmail.com>
+Date:   Sun Jan 7 11:40:00 2024 -0400
+
+    Servidor NodeJs Bienes Raices
