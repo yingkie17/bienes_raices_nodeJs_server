@@ -76,7 +76,7 @@ orders(app);
 products(app, upload);
 
 
-server.listen(port, '192.168.100.2' || 'localhost', function(){
+server.listen(port, '0.0.0.0', function(){
   console.log('Backend: ' + 'Servidor Corriendo en el puerto:' + ' ' + port + ' PID ' + process.pid + ' ' + '...');
 });
 
