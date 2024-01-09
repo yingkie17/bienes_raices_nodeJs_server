@@ -10,14 +10,15 @@ types.setTypeParser(1114, function(stringValue){
   return stringValue;
 });
 const databaseConfig = {
-  'host': '127.0.0.1',
+  'host': 'dpg-cmdee76d3nmc73djegrg-a',
   'port': 5432,
-  'database': 'bienesraices_db',
-  'user': 'postgres',
-  'password': '72254631'
+  'database': 'bienesraices_db_wm7t',
+  'user': 'yingkie17',
+  'password': 'CnkZkgqbeSAMiB5BfR8RaqiHFKnBVJ1a'
 };
 const db = pgp(databaseConfig);
 module.exports = db;
+<<<<<<< HEAD
 
 
 */
@@ -35,3 +36,5 @@ const db = pgp({
 });
 
 module.exports = db;
+=======
+>>>>>>> 8201444cfaf1b0e2f6c985f40e3a293023b808f9
