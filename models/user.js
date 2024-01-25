@@ -159,23 +159,41 @@ User.create = (user) => {
   users(
     name,
 	lastname,
+	identity_card,
 	email,
 	phone,
+	address_agent,
+    date_of_birth,
+    place_of_birth,
+    password,
 	image,
-	password,
+	experience,
+	certificates,
+	area_specialist,
+	date_of_entry,
+	is_available,
 	created_at,
 	updated_at
   )
-  VALUES($1,$2,$3,$4,$5,$6,$7,$8) RETURNING id
+  VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15,$16,$17) RETURNING id
   `;
   return db.oneOrNone(sql, 
     [
     user.name,
     user.lastname,
+    user.identity_card,
     user.email,
     user.phone,
-    user.image,
+    user.address_agent,
+    user.date_of_birth,
+    user.place_of_birth,
     user.password,
+    user.image,
+    user.experience,
+    user.certificates,
+	user.area_specialist,
+	user.date_of_entry,
+	user.is_available,
     new Date(),
     new Date()
   ]

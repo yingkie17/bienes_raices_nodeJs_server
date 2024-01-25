@@ -76,19 +76,22 @@ orders(app);
 products(app, upload);
 
 
-server.listen(port, '0.0.0.0', function(){
+server.listen(port, '192.168.100.2' || 'localhost', function(){
   console.log('Backend: ' + 'Servidor Corriendo en el puerto:' + ' ' + port + ' PID ' + process.pid + ' ' + '...');
 });
 
 
+// Configuracion de Prueba para Postman de ruta raiz
+//Si se realiza una consulta con la url mas la ruta muestra los mensajes que acontinuacion muestra app.get
 app.get('/', (req, res) => {
-  res.send('Ruta Raiz del Backend');
+  //Enviamos Respuesta con un mensaje
+  res.send('Ruta de prueba Raiz del Backend');
 });
-
+//Otra Ruta de Prueba con Test de mensaje
 app.get('/test', (req, res) => {
   res.send('Ruta Raiz de Test');
 });
-
+// End of Configuracion de Prueba para Postman de ruta raiz
 
 //Manejador de Errores
 app.use((err, req, res, next) => {

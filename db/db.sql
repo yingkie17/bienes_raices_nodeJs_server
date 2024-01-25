@@ -28,7 +28,7 @@ INSERT INTO roles (
 )
 VALUES (
 	'INMOBILIARIA',
-	'inmobiliaria/propiedades/list',
+	'inmobiliaria/gestiones/list',
 	'2023-05-15',
 	'2023-05-15'
 );
@@ -40,7 +40,7 @@ INSERT INTO roles (
 )
 VALUES (
 	'AGENTE',
-	'agente/propiedades/list',
+	'agente/gestiones/list',
 	'2023-05-15',
 	'2023-05-15'
 )
@@ -52,15 +52,66 @@ CREATE TABLE users(
 	id BIGSERIAL PRIMARY KEY,
 	name VARCHAR(255) NOT NULL,
 	lastname VARCHAR(255) NOT NULL,
+	identity_card VARCHAR(120) NULL,
 	email VARCHAR(255) NOT NULL UNIQUE,
 	phone VARCHAR(120) NOT NULL UNIQUE,
+	address_agent VARCHAR(255) NULL,
+	date_of_birth TIMESTAMP(0) NULL,
+	place_of_birth VARCHAR(120) NULL,
 	password VARCHAR(255) NOT NULL,
 	image VARCHAR(255) NULL,
+	experience VARCHAR(255) NULL,
+	certificates VARCHAR(255) NULL,
+	area_specialist VARCHAR(255) NULL,
+	date_of_entry TIMESTAMP(0) NULL,
 	is_available BOOLEAN NULL,
 	session_token VARCHAR(255),
 	created_at TIMESTAMP(0) NOT NULL,
 	updated_at TIMESTAMP (0) NOT NULL	
 );
+
+
+
+INSERT INTO users(
+	name,
+	lastname,
+	identity_card,
+	email,
+	phone,
+	address_agent,
+	date_of_birth,
+	place_of_birth,
+	password,
+	experience,
+	certificates,
+	area_specialist,
+	date_of_entry,
+	is_available,
+	created_at,
+	updated_at
+	
+)
+
+VALUES(
+	'nombre admin',
+	'apellidos admin',
+	'00007 - LP'
+	'admin@gmail.com',
+	'+591 76780010',
+	'dirección admin',
+	'1990-11-17 12:00:00',
+	'Cochabamba Bolivia',
+	'123456789',
+	'eperiencia admin',
+	'certicados admin',
+	'Ingeniería en Sistemas Desarrollo de Software',
+	'2024-01-01 12:00:00',
+	'true',
+	'2023-04-30',
+	'2023-04-30'
+)
+
+
 
 DROP TABLE IF EXISTS user_has_roles CASCADE;
 CREATE TABLE user_has_roles(
@@ -72,28 +123,6 @@ CREATE TABLE user_has_roles(
 	FOREIGN KEY(id_rol) REFERENCES roles(id) ON UPDATE CASCADE ON DELETE CASCADE,
 	PRIMARY KEY(id_user, id_rol)
 );
-
-
-
-INSERT INTO users(
-	name,
-	lastname,
-	email,
-	phone,
-	password,
-	created_at,
-	updated_at
-)
-
-VALUES(
-	'admin',
-	'admin',
-	'admin@gmail.com',
-	'72254631',
-	'1234567',
-	'2023-04-30',
-	'2023-04-30'
-)
 
 
 
@@ -177,7 +206,8 @@ SELECT
     	image4 VARCHAR(255) NULL,
     	image5 VARCHAR(255) NULL,
     	image6 VARCHAR(255) NULL,
-    	id_category BIGINT NULL,    	
+    	id_category BIGINT NULL,    
+    	is_available BOOLEAN NULL,	
     	created_at TIMESTAMP(0) NULL,
     	updated_at TIMESTAMP (0) NULL,
     	FOREIGN KEY(id_category) REFERENCES categories(id) ON UPDATE CASCADE ON DELETE CASCADE

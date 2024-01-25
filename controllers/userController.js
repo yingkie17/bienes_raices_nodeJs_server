@@ -86,6 +86,7 @@ module.exports ={
         message: 'El registro se Realizo Correctamente, ya puede iniciar sesión',
         data: data.id
       });
+       console.log(`\n ======= Se registró nuevo usuario ======= \n`);
     } 
     catch(error){
       console.error(`Error: ${error}`);
@@ -114,12 +115,14 @@ module.exports ={
             }
         }
       const data = await User.create(user);
-      await Rol.create(data.id, 1); //Establecer rol por defecto de cliente al crear usuario
+      await Rol.create(data.id, 1);
+      console.log(`\n ======= El registro de nuevo usuario se realizó correctamente ======= \n`); //Establecer rol por defecto de cliente al crear usuario
       return res.status(201).json({
         success: true,
         message: 'El registro se Realizo Correctamente, ya puede iniciar sesión',
         data: data.id
       });
+      
     } 
     catch(error){
       console.error(`Error: ${error}`);
@@ -130,6 +133,53 @@ module.exports ={
       });
     }
   },
+  
+  
+  
+  
+    //registrar nuevo Agente Inmobiliario con imagen
+  async registerAgentWithImage(req, res, next){
+    try{
+      const user = JSON.parse(req.body.user);
+      console.log(`Datos de registro de agente: ${user}`);
+      
+      const files = req.files;
+        if (files.length > 0){
+          const pathImage = `image_${Date.now()}`; //Nombre de la imagen que se guarda en firebase
+          const url = await storage(files[0], pathImage);
+          
+            if(url != undefined && url != null ) {
+              user.image = url;
+            }
+        }
+      const data = await User.create(user);
+      await Rol.create(data.id, 2);
+      console.log(`\n ======= El registro de nuevo agente se realizó correctamente ======= \n`); //Establecer rol por defecto de cliente al crear usuario
+      return res.status(201).json({
+        success: true,
+        message: 'El registro de Agente fue exitoso',
+        data: data.id
+      });
+      
+    } 
+    catch(error){
+      console.error(`Error: ${error}`);
+      return res.status(501).json({
+        success: false,
+        message:'Error al realizar el registro de agente',
+        error: error
+      });
+    }
+  },
+  
+  
+  
+  
+  
+  
+  
+  
+  
   
  // Método para Editar Perfil
   async update(req, res, next){

@@ -10,8 +10,12 @@ types.setTypeParser(1114, function(stringValue){
   return stringValue;
 });
 const databaseConfig = {
-  connectionString: 'postgres://yingkie17:CnkZkgqbeSAMiB5BfR8RaqiHFKnBVJ1a@dpg-cmdee76d3nmc73djegrg-a.oregon-postgres.render.com/bienesraices_db_wm7t' + "?sslmode=require", 
-  ssl: true,
+  'host': '127.0.0.1',
+  'port': 5432,
+  'database': 'bienesraices_db',
+  'user': 'postgres',
+  'password': '72254631'
 };
 const db = pgp(databaseConfig);
 module.exports = db;
+

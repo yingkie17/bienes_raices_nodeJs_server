@@ -20,6 +20,8 @@ module.exports = (app, upload) => {
   // Crear Nuevo Usuario con Imagen registerWithImage
   app.post('/api/users/create', upload.array('image', 1), UsersController.registerWithImage);
   
+  // Crear Nuevo Agente con Imagen registerAgentWithImage
+  app.post('/api/users/create/agent', passport.authenticate('jwt', {session: false}), upload.array('image', 1), UsersController.registerAgentWithImage);
   // Login para inicio de sesión
   app.post('/api/users/login', UsersController.login);
   
