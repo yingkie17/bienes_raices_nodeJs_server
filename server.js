@@ -75,10 +75,15 @@ address(app);
 orders(app);
 products(app, upload);
 
+//Server para Prueba Local
+// server.listen(port, '192.168.100.2' || 'localhost', function(){console.log('Backend: ' + 'Servidor Corriendo en el puerto:' + ' ' + port + ' PID ' + process.pid + ' ' + '...');});
 
-server.listen(port, '192.168.100.2' || 'localhost', function(){
+//Server en Render
+server.listen(port, '0.0.0.0', function(){
   console.log('Backend: ' + 'Servidor Corriendo en el puerto:' + ' ' + port + ' PID ' + process.pid + ' ' + '...');
 });
+
+
 
 
 // Configuracion de Prueba para Postman de ruta raiz
