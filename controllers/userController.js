@@ -153,7 +153,7 @@ module.exports ={
             }
         }
       const data = await User.create(user);
-      await Rol.create(data.id, 2);
+      await Rol.create(data.id, 3);
       console.log(`\n ======= El registro de nuevo agente se realizó correctamente ======= \n`); //Establecer rol por defecto de cliente al crear usuario
       return res.status(201).json({
         success: true,
