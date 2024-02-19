@@ -23,13 +23,7 @@ const db = pgp(databaseConfig);
 module.exports = db;
 
 
-
-
 //======== Configuración para Render Servidor en la Nube
-
-
-
-
 
 const promise = require('bluebird');
 const options = {
