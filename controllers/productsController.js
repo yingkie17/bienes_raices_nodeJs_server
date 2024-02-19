@@ -198,87 +198,77 @@ async updateProduct(req, res, next) {
   
   
 //Método para crear nuevo Producto o Propiedad
-  async updateProduct(req, res, next){
-
-    console.log('\n======= Método para la actualizar información un de producto =======\n');
-	const id = req.params.id;
-      let product = JSON.parse(req.body.product);
-      const formattedData = JSON.stringify(product, null, 1).replace(/,/g, ',\n');
-      console.log(formattedData);
+  async updateProduct(req, res, next) {
+    console.log('\n======= Método para la actualizar información de un producto =======\n');
+    const id = req.params.id;
+    let product = JSON.parse(req.body.product);
     const files = req.files;
-    let inserts = 0;
-    
-    
-      //Si el registro de producto tiene mas de una imagen vamos proceder con el registro en la base de datos
-      try{
-        
-          //vamos almacenar los datos del producto en primera instancia 
-          const data = await Product.updateProduct(id, product); // Almacenando la información del producto
-          product.id = data.id;
-          
-          const start = async () => {
-            await asyncForEach(files, async (file) => {
-              //se créa el nombre de la imagen
-              const pathImage = `image_${Date.now()}`;
-              //se va obtener la URL de la imagen almacenada
-              const url = await storage(file, pathImage);
-              
-                  if(url !== undefined && url !== null ){
-                    if(inserts == 0){
-                      // Se guardó la imangen 1
-                      product.image1 = url;
-                    }
-                    else if(inserts == 1) {
-                      //Se guardó la imagen 2
-                       product.image2 = url;
-                    }
-                    else if(inserts == 2) {
-                      //Se guardó la imagen 3
-                       product.image3 = url;
-                    }
-                    else if(inserts == 3) {
-                      //Se guardó la imagen 4
-                       product.image4 = url;
-                    }
-                    else if(inserts == 4) {
-                      //Se guardó la imagen 5
-                       product.image5 = url;
-                    }
-                    else if(inserts == 5) {
-                      //Se guardó la imagen 6
-                       product.image6 = url;
-                    }
-                  }
-                  await Product.updateProduct(id, product);
-                  inserts = inserts +1;
-                  if (inserts == files.length){
-                  console.log('\n======= Se realizó la actualizar información un nuevo producto exitosamente =======\n');
-                    ('\n======= //Método para la actualizar información un Producto =======\n')  
-                    
-                    return res.status(201).json({
-                      success: true,
-                      message: 'Le producto se registró correctamente'
-                    });
-                  }
-              
+
+    try {
+        // Actualiza el producto en la base de datos sin guardar imágenes si no se proporcionan archivos
+        if (files.length === 0) {
+            const data = await Product.updateProduct(id, product);
+            console.log('\n======= Se realizó la actualización de la información del producto sin imágenes =======\n');
+            return res.status(201).json({
+                success: true,
+                message: 'El producto se actualizó correctamente'
             });
-          }
-          start();
-          
-          
-      }
-      catch(error){
-        console.error(` ===== Ha ocurrido un error al actualizar información un producto o propiedad, Error: ${error} =====`);
-       return res.status(501).json({
-         message: `Ha ocurrido un error  al actualizar información un un producto o propiedad, Error: ${error}`,
-         success: false,
-         error: error
-       });
-      }
-      
-    
-    
-  },  
+        }
+
+        // Procesa las imágenes si se proporcionan archivos
+        let inserts = 0;
+        const data = await Product.updateProduct(id, product);
+
+        const start = async () => {
+            await asyncForEach(files, async (file) => {
+                const pathImage = `image_${Date.now()}`;
+                const url = await storage(file, pathImage);
+
+                if (url !== undefined && url !== null) {
+                    // Guarda la URL de la imagen en el producto según el índice de inserción
+                    switch (inserts) {
+                        case 0:
+                            product.image1 = url;
+                            break;
+                        case 1:
+                            product.image2 = url;
+                            break;
+                        case 2:
+                            product.image3 = url;
+                            break;
+                        case 3:
+                            product.image4 = url;
+                            break;
+                        case 4:
+                            product.image5 = url;
+                            break;
+                        case 5:
+                            product.image6 = url;
+                            break;
+                    }
+                }
+
+                inserts++;
+                if (inserts === files.length) {
+                    console.log('\n======= Se realizó la actualización de la información del producto con imágenes =======\n');
+                    return res.status(201).json({
+                        success: true,
+                        message: 'El producto se actualizó correctamente'
+                    });
+                }
+            });
+        };
+
+        start();
+    } catch (error) {
+        console.error(` ===== Ha ocurrido un error al actualizar la información del producto: ${error} =====`);
+        return res.status(501).json({
+            message: `Ha ocurrido un error al actualizar la información del producto: ${error}`,
+            success: false,
+            error: error
+        });
+    }
+},  
   
   
   
