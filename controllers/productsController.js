@@ -208,15 +208,7 @@ async updateProduct(req, res, next) {
     const files = req.files;
     let inserts = 0;
     
-    if(files.length === 0){
-      console.error('\n==== Ha ocurrido un error la actualizar información un producto, debe contener almenos una imagen, no se esta guardando ninguna imagen ====\n');
-      return res.status(501).json({
-        message: 'La actualización de propiedad no contiene ninguna imagen, debe contener almenos una imagen para realizar el registro',
-        success: false,
-        
-      });
-    }
-    else{
+    
       //Si el registro de producto tiene mas de una imagen vamos proceder con el registro en la base de datos
       try{
         
@@ -284,7 +276,7 @@ async updateProduct(req, res, next) {
        });
       }
       
-    }
+    
     
   },  
   
