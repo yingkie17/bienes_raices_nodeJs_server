@@ -200,4 +200,67 @@ Product.update = (product) => {
   
 }
 
+
+
+
+Product.updateProduct = (id, product) => {
+  const sql = `
+  UPDATE 
+    products
+  SET
+    name_product = $2,
+    price_product = $3,
+    commission_product = $4,
+    city_product = $5,
+    address_product = $6,
+    phone_product = $7,
+    description_product = $8,
+    area_product = $9,
+    name_owner = $10,
+    lastname_owner = $11,
+    email_owner = $12,
+    phone_owner = $13,
+    ci_owner = $14,
+    id_contract = $15,
+    image1 = $16,
+    image2 = $17,
+    image3 = $18,
+    image4 = $19,
+    image5 = $20,
+    image6 = $21,
+    id_category = $22,
+    updated_at = $23
+  WHERE
+    id = $1
+  RETURNING id
+  `;
+  return db.oneOrNone(sql, [
+    id,
+    product.name_product,
+    product.price_product,
+    product.commission_product,
+    product.city_product,
+    product.address_product,
+    product.phone_product,
+    product.description_product,
+    product.area_product,
+    product.name_owner,
+    product.lastname_owner,
+    product.email_owner,
+    product.phone_owner,
+    product.ci_owner,
+    product.id_contract,
+    product.image1,
+    product.image2,
+    product.image3,
+    product.image4,
+    product.image5,
+    product.image6,
+    product.id_category,
+    new Date()
+    
+  ]);
+}
+
+
 module.exports = Product;

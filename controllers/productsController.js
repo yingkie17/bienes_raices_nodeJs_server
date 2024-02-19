@@ -1,4 +1,5 @@
 
+
 const Product = require('../models/product');
 const storage = require('../utils/cloud_storage');
 const asyncForEach = require('../utils/async_foreach');
@@ -153,5 +154,140 @@ module.exports = {
       
     }
     
+  },
+  
+  
+/*
+// Método para actualizar Producto
+async updateProduct(req, res, next) {
+  try {
+    const id = req.params.id;
+   // const product = req.body; //Hardcodeando No necesitas analizar el cuerpo de la solicitud
+    let product = JSON.parse(req.body.product); 
+    console.log('\n======= Método para actualizar datos de producto =======\n');
+    console.log(`Los datos de producto se actualizaron en los siguientes campos: \n`);
+    const formattedData = JSON.stringify(product, null, 1).replace(/,/g, ',\n');
+    console.log(formattedData);
+    console.log('// ===== // Método para actualizar datos de producto =====');
+    const files = req.files;
+     if (files.length > 0){
+          const pathImage = `image_${Date.now()}`; //Nombre de la imagen que se guarda en firebase
+          const url = await storage(files[6], pathImage);
+          
+            if(url != undefined && url != null ) {
+              user.image = url;
+            }
+        }
+    await Product.updateProduct(id, product);
+    console.log('Producto actualizado correctamente en la base de datos');
+    return res.status(201).json({
+      success: true,
+      message: 'Los datos de producto se actualizó correctamente'
+    });
+  } catch (error) {
+    console.error(`\n ===== Ha ocurrido un error al actualizar un producto o propiedad, Error: ${error} =====`);
+    return res.status(501).json({
+      message: `Ha ocurrido un error al actualizar un producto o propiedad, Error: ${error}`,
+      success: false,
+      error: error
+    });
   }
+}
+  */
+  
+  
+  
+//Método para crear nuevo Producto o Propiedad
+  async updateProduct(req, res, next){
+
+    console.log('\n======= Método para la actualizar información un de producto =======\n');
+	const id = req.params.id;
+      let product = JSON.parse(req.body.product);
+      const formattedData = JSON.stringify(product, null, 1).replace(/,/g, ',\n');
+      console.log(formattedData);
+    const files = req.files;
+    let inserts = 0;
+    
+    if(files.length === 0){
+      console.error('\n==== Ha ocurrido un error la actualizar información un producto, debe contener almenos una imagen, no se esta guardando ninguna imagen ====\n');
+      return res.status(501).json({
+        message: 'La actualización de propiedad no contiene ninguna imagen, debe contener almenos una imagen para realizar el registro',
+        success: false,
+        
+      });
+    }
+    else{
+      //Si el registro de producto tiene mas de una imagen vamos proceder con el registro en la base de datos
+      try{
+        
+          //vamos almacenar los datos del producto en primera instancia 
+          const data = await Product.updateProduct(id, product); // Almacenando la información del producto
+          product.id = data.id;
+          
+          const start = async () => {
+            await asyncForEach(files, async (file) => {
+              //se créa el nombre de la imagen
+              const pathImage = `image_${Date.now()}`;
+              //se va obtener la URL de la imagen almacenada
+              const url = await storage(file, pathImage);
+              
+                  if(url !== undefined && url !== null ){
+                    if(inserts == 0){
+                      // Se guardó la imangen 1
+                      product.image1 = url;
+                    }
+                    else if(inserts == 1) {
+                      //Se guardó la imagen 2
+                       product.image2 = url;
+                    }
+                    else if(inserts == 2) {
+                      //Se guardó la imagen 3
+                       product.image3 = url;
+                    }
+                    else if(inserts == 3) {
+                      //Se guardó la imagen 4
+                       product.image4 = url;
+                    }
+                    else if(inserts == 4) {
+                      //Se guardó la imagen 5
+                       product.image5 = url;
+                    }
+                    else if(inserts == 5) {
+                      //Se guardó la imagen 6
+                       product.image6 = url;
+                    }
+                  }
+                  await Product.updateProduct(id, product);
+                  inserts = inserts +1;
+                  if (inserts == files.length){
+                  console.log('\n======= Se realizó la actualizar información un nuevo producto exitosamente =======\n');
+                    ('\n======= //Método para la actualizar información un Producto =======\n')  
+                    
+                    return res.status(201).json({
+                      success: true,
+                      message: 'Le producto se registró correctamente'
+                    });
+                  }
+              
+            });
+          }
+          start();
+          
+          
+      }
+      catch(error){
+        console.error(` ===== Ha ocurrido un error al actualizar información un producto o propiedad, Error: ${error} =====`);
+       return res.status(501).json({
+         message: `Ha ocurrido un error  al actualizar información un un producto o propiedad, Error: ${error}`,
+         success: false,
+         error: error
+       });
+      }
+      
+    }
+    
+  },  
+  
+  
+  
 } 
