@@ -5,12 +5,17 @@ const db = require('../config/config');
 const crypto = require('crypto');
 const User = {};
 
+
+
+//Metodo para Obtener todos los usuarios
 User.getAll = () => {
   const sql = `SELECT * FROM users
    `;
    
    return db.manyOrNone(sql);
 }
+
+
 
 // Método para busqueda de Usuario existente en la base de datos
 
@@ -104,6 +109,8 @@ User.findAgent = () =>{
   `;
   return db.manyOrNone(sql);
 }
+
+
 
 
 //Método para encontrar por id para editar datos de usuario en el Drawer
@@ -256,5 +263,28 @@ User.isPasswordMatched = (userPassword, hash) => {
   
 }
 
+//Enontrar por el id del usuario para validar la creacion del reporte
+User.findUserReportById = (id) => {
+  const sql = `
+    SELECT * FROM users WHERE id = $1
+  `;
+  return db.oneOrNone(sql, [id]);
+};
+
+
+User.findByEmailAgent = (email) => {
+  const sql = 'SELECT * FROM users WHERE email = $1';
+  return db.oneOrNone(sql, [email]);
+};
+
+User.findByPhone = (phone) => {
+  const sql = 'SELECT * FROM users WHERE phone = $1';
+  return db.oneOrNone(sql, [phone]);
+};
+
+User.findByIdentityCard = (identity_card) => {
+  const sql = 'SELECT * FROM users WHERE identity_card = $1';
+  return db.oneOrNone(sql, [identity_card]);
+};
 
 module.exports = User;

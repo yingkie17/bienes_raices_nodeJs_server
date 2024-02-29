@@ -35,6 +35,8 @@ const categories = require('./routes/categoriesRoutes.js');
 const products = require('./routes/productsRoutes');
 const address = require('./routes/addressRoutes');
 const orders = require('./routes/ordersRoutes');
+const reports = require('./routes/reportsRoutes');
+
 
 
 
@@ -74,12 +76,13 @@ categories(app);
 address(app);
 orders(app);
 products(app, upload);
+reports(app);
 
 //Server para Prueba Local
-//server.listen(port, '192.168.100.2' || 'localhost', function(){console.log('Backend: ' + 'Servidor Corriendo en el puerto:' + ' ' + port + ' PID ' + process.pid + ' ' + '...');});
+server.listen(port, '192.168.100.2' || 'localhost', function(){console.log('Backend: ' + 'Servidor Corriendo en el puerto:' + ' ' + port + ' PID ' + process.pid + ' ' + '...');});
 
 //Server en Render
- server.listen(port, '0.0.0.0', function(){console.log('Backend: ' + 'Servidor Corriendo en el puerto:' + ' ' + port + ' PID ' + process.pid + ' ' + '...');});
+ //server.listen(port, '0.0.0.0', function(){console.log('Backend: ' + 'Servidor Corriendo en el puerto:' + ' ' + port + ' PID ' + process.pid + ' ' + '...');});
 
 
 

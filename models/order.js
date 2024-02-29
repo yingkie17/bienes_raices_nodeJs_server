@@ -154,7 +154,7 @@ Order.create = (order) => {
   ]);
 }
 
-//Metodo para actualizar esta del ticket de la orden
+//Metodo para actualizar estado del ticket de la orden
 Order.update = (order) => {
   const sql = `
   UPDATE 

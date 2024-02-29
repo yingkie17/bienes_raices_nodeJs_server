@@ -102,8 +102,35 @@ module.exports ={
   //registrar nuevo usuario con imagen
   async registerWithImage(req, res, next){
     try{
+      console.log(`\n ======= Método para registrar nuevo usuario ======= \n`);
       const user = JSON.parse(req.body.user);
-      console.log(`Datos de registro de nuevo usuario con imagen: ${user}`);
+      //console.log(`Datos de registro de nuevo usuario con imagen: ${user}`);
+      // Verificar si el usuario ya existe
+       const existingIdentityCard = await User.findByIdentityCard(user.identity_card);
+    if (existingIdentityCard) {
+      console.log('El carnet de Idenditad ya existe ');
+      return res.status(400).json({
+        message: 'Ya existe el número de identidad de agente',
+        success: false
+      });
+    }  
+    
+    const existingEmail = await User.findByEmailAgent(user.email);
+    if (existingEmail) {
+      console.log('El E-mail de agente ya existe');
+      return res.status(400).json({
+        message: 'Ya existe el email de agente',
+        success: false
+      });
+    }
+      const existingPhone = await User.findByPhone(user.phone);
+    if (existingPhone) {
+      console.log('El Celular de agente ya existe');
+      return res.status(400).json({
+        message: 'Ya existe el numero de celular de agente',
+        success: false
+      });
+    }
       
       const files = req.files;
         if (files.length > 0){
@@ -116,16 +143,18 @@ module.exports ={
         }
       const data = await User.create(user);
       await Rol.create(data.id, 1);
-      console.log(`\n ======= El registro de nuevo usuario se realizó correctamente ======= \n`); //Establecer rol por defecto de cliente al crear usuario
+      console.log(`\n ======= El registro de nuevo usuario se realizó correctamente ======= \n`);
+      console.log(`\n ======= //Método para registrar nuevo usuario ======= \n`); //Establecer rol por defecto de cliente al crear usuario
       return res.status(201).json({
         success: true,
-        message: 'El registro se Realizo Correctamente, ya puede iniciar sesión',
+        message: 'Se resgistró satisfactoriamente nuevo usuario',
         data: data.id
       });
       
     } 
     catch(error){
       console.error(`Error: ${error}`);
+      console.log(`\n ======= //Método para registrar nuevo usuario ======= \n`);
       return res.status(501).json({
         success: false,
         message:'Error al realizar el registro de nuevo usuario',
@@ -141,7 +170,37 @@ module.exports ={
   async registerAgentWithImage(req, res, next){
     try{
       const user = JSON.parse(req.body.user);
-      console.log(`Datos de registro de agente: ${user}`);
+       console.log(`\n ======= Método para registrar nuevo agente inmbiliario ======= \n`);
+       
+      // Verificar si el usuario ya existe
+       const existingIdentityCard = await User.findByIdentityCard(user.identity_card);
+    if (existingIdentityCard) {
+      console.log('El carnet de Idenditad ya existe ');
+      return res.status(400).json({
+        message: 'Ya existe el número de identidad de agente',
+        success: false
+      });
+    }  
+    
+    const existingEmail = await User.findByEmailAgent(user.email);
+    if (existingEmail) {
+      console.log('El E-mail de agente ya existe');
+      return res.status(400).json({
+        message: 'Ya existe el email de agente',
+        success: false
+      });
+    }
+      const existingPhone = await User.findByPhone(user.phone);
+    if (existingPhone) {
+      console.log('El Celular de agente ya existe');
+      return res.status(400).json({
+        message: 'Ya existe el numero de celular de agente',
+        success: false
+      });
+    }
+    
+       // Crear el usuario
+      //console.log(`Datos de registro de agente: ${user}`);
       
       const files = req.files;
         if (files.length > 0){
@@ -154,8 +213,9 @@ module.exports ={
         }
       const data = await User.create(user);
       await Rol.create(data.id, 3);
-      console.log(`\n ======= El registro de nuevo agente se realizó correctamente ======= \n`); //Establecer rol por defecto de cliente al crear usuario
-      return res.status(201).json({
+      console.log(`\n ======= El registro de nuevo agente se realizó satisfactoriamente ======= \n`); //Establecer rol por defecto de cliente al crear usuario
+     console.log(`\n ======= //Método para registrar nuevo agente inmbiliario ======= \n`);
+       return res.status(201).json({
         success: true,
         message: 'El registro de Agente fue exitoso',
         data: data.id
@@ -164,6 +224,7 @@ module.exports ={
     } 
     catch(error){
       console.error(`Error: ${error}`);
+      console.log(`\n ======= //Método para registrar nuevo agente inmbiliario ======= \n`);
       return res.status(501).json({
         success: false,
         message:'Error al realizar el registro de agente',

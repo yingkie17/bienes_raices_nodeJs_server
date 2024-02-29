@@ -263,4 +263,15 @@ Product.updateProduct = (id, product) => {
 }
 
 
+
+
+//Enontrar por el id el producto para validar la creacion del reporte
+Product.findById = (id) => {
+  const sql = `
+    SELECT * FROM products WHERE id = $1
+  `;
+  return db.oneOrNone(sql, [id]);
+};
+
+
 module.exports = Product;

@@ -52,7 +52,7 @@ CREATE TABLE users(
 	id BIGSERIAL PRIMARY KEY,
 	name VARCHAR(255) NOT NULL,
 	lastname VARCHAR(255) NOT NULL,
-	identity_card VARCHAR(120) NULL,
+	identity_card VARCHAR(120) NULL UNIQUE,
 	email VARCHAR(255) NOT NULL UNIQUE,
 	phone VARCHAR(120) NOT NULL UNIQUE,
 	address_agent VARCHAR(255) NULL,
@@ -308,3 +308,35 @@ WHERE
 	  );
 	  	
 	 
+	 
+	 //Tabla para crear Reportes
+	 
+
+	
+	
+	 DROP TABLE IF EXISTS reports CASCADE;
+	  CREATE TABLE reports( 
+	  	id BIGSERIAL PRIMARY KEY,
+	  	name_report VARCHAR(180) NOT NULL,
+	  	description_report VARCHAR(255)  NULL,
+	  	created_at TIMESTAMP(0) NOT NULL,
+    	updated_at TIMESTAMP (0) NOT NULL
+	  ),
+	  
+	  
+	DROP TABLE IF EXISTS reports_has_report CASCADE;
+	  CREATE TABLE reports_has_report( 
+	  	id BIGSERIAL PRIMARY KEY,
+	  	id_reports BIGINT NOT NULL,
+	  	id_user BIGINT NULL,
+	  	id_product BIGINT NULL,
+	  	name_report VARCHAR(255) NULL,
+		description_report VARCHAR(10000) NULL,
+	  	status_report VARCHAR(255) NULL,
+	  	created_at TIMESTAMP(0) NOT NULL,
+    	updated_at TIMESTAMP (0) NOT NULL,
+	  	FOREIGN KEY(id_reports) REFERENCES reports(id) ON UPDATE CASCADE ON DELETE CASCADE,
+	  	FOREIGN KEY(id_user) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE,
+	  	FOREIGN KEY(id_product) REFERENCES products(id) ON UPDATE CASCADE ON DELETE CASCADE
+	  ),
+	  

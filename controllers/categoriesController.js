@@ -26,29 +26,37 @@ async getAll(req, res, next){
     
   
 //Método para crear nueva categoría
-  async create(req, res, next){
-    try{
-      //vamos a capturar la data que envia el formulario de flutter
-      const category = req.body;
-      const data = await Category.create(category);
-      console.log(`\n ===== Método para crear una nueva categoría de servicio ===== \n`);
-      const formattedData = JSON.stringify(category, null, 1).replace(/,/g, ',\n');
-      console.log(formattedData);
-      console.log(`\n ===== //Método para crear una nueva categoría de servicio ===== \n`);
-      return res.status(201).json({
-        message: 'Se ha creado una nueva categoria',
-        success: true,
-        data: data.id
+  async create(req, res, next) {
+  try {
+    const { name, description } = req.body;
+
+    // Verificar si ya existe una categoría con el mismo nombre
+    const existingCategory = await Category.findByName(name);
+    if (existingCategory) {
+      console.log('La categoria para producto o propiedad que se intenta crear ya existe');
+      return res.status(400).json({
+        message: 'Ya existe una categoría con este nombre',
+        success: false
       });
     }
-    catch(error){
-      console.error(`Se Produjo un Error en categoryController el error es: ${error}`);
-      return res.status(501).json({
-        message: 'Se produjo un error al crear la nueva categoría en categoryController en el servidor',
-        success: false,
-        error: error
-      })
-    }
+
+    // Si no existe, crear la nueva categoría
+    const newCategory = await Category.create({ name, description });
+
+    return res.status(201).json({
+      message: 'Se ha creado una nueva categoría',
+      success: true,
+      data: newCategory.id
+    });
+  } catch (error) {
+    console.error(`Error al crear la categoría: ${error}`);
+    return res.status(500).json({
+      message: 'Se produjo un error al crear la nueva categoría en el servidor',
+      success: false,
+      error: error.message
+    });
   }
+}
+
   
 }

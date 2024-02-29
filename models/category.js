@@ -39,5 +39,11 @@ Category.create = (category) => {
   ]);
   
 }
+;
+
+Category.findByName = (name) => {
+  const sql = 'SELECT * FROM categories WHERE name = $1';
+  return db.oneOrNone(sql, [name]);
+};
 
 module.exports = Category;
