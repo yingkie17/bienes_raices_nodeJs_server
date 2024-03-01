@@ -110,24 +110,24 @@ module.exports ={
     if (existingIdentityCard) {
       console.log('El carnet de Idenditad ya existe ');
       return res.status(400).json({
-        message: 'Ya existe el número de identidad de agente',
+        message: 'El documento de identidad se encuentra uso actualmente',
         success: false
       });
     }  
     
     const existingEmail = await User.findByEmailAgent(user.email);
     if (existingEmail) {
-      console.log('El E-mail de agente ya existe');
+      console.log('El E-mail de usuario cliente ya existe');
       return res.status(400).json({
-        message: 'Ya existe el email de agente',
+        message: 'Correo electrónico inválido, la dirección de correo electrónico que proporcionaste esta actualmente en uso',
         success: false
       });
     }
       const existingPhone = await User.findByPhone(user.phone);
     if (existingPhone) {
-      console.log('El Celular de agente ya existe');
+      console.log('El Celular de usuario cliente ya existe');
       return res.status(400).json({
-        message: 'Ya existe el numero de celular de agente',
+        message: 'Numero de contacto inválido, el número de teléfono que proporcionaste esta actualmente en uso',
         success: false
       });
     }

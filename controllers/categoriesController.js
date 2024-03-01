@@ -9,8 +9,8 @@ async getAll(req, res, next){
   try{
     console.log(`\n ===== Método para obtener toda las categoría de servicio ===== \n`);
     const data = await Category.getAll();
-     const formattedData = JSON.stringify(data, null, 1).replace(/,/g, ',\n');
-      console.log(formattedData);
+    /* const formattedData = JSON.stringify(data, null, 1).replace(/,/g, ',\n');
+      console.log(formattedData); */
       console.log(`\n ===== //Método para obtener toda las categoría de servicio ===== \n`);
     return res.status(201).json(data);
   }

@@ -16,8 +16,8 @@ module.exports = {
       const id_category = req.params.id_category;
       const data = await Product.findByCategory(id_category);
        console.log('\n=== Lista de productos según su categoria: ===\n');
-       const formattedData = JSON.stringify(data, null, 1).replace(/,/g, ',\n');
-      console.log(formattedData);
+      /* const formattedData = JSON.stringify(data, null, 1).replace(/,/g, ',\n');
+      console.log(formattedData); */
       ('\n======= //Método obtener información de Producto según su categoria =======\n');
       return res.status(201).json({
         message: 'Los datos de la lista de productos se obtuvieron correctamente',
@@ -47,8 +47,8 @@ module.exports = {
       const product_name = req.params.product_name;
       const data = await Product.findByCategoryAndProductName(id_category, product_name);
        console.log('\n=== Lista de productos según su categoria: ===\n');
-       const formattedData = JSON.stringify(data, null, 1).replace(/,/g, ',\n');
-      console.log(formattedData);
+     /*  const formattedData = JSON.stringify(data, null, 1).replace(/,/g, ',\n');
+      console.log(formattedData); */
       ('\n======= //Método obtener información de Producto según su categoria =======\n');
       return res.status(201).json({
         message: 'Los datos de la lista de productos se obtuvieron correctamente',
@@ -198,68 +198,60 @@ async updateProduct(req, res, next) {
   
   
 //Método para crear nuevo Producto o Propiedad
-  async updateProduct(req, res, next) {
-    console.log('\n======= Método para la actualizar información de un producto =======\n');
+ 
+async updateProduct(req, res, next) {
+    console.log('\n======= Método para actualizar información de un producto =======\n');
     const id = req.params.id;
     let product = JSON.parse(req.body.product);
     const files = req.files;
-
     try {
-        // Actualiza el producto en la base de datos sin guardar imágenes si no se proporcionan archivos
         if (files.length === 0) {
             const data = await Product.updateProduct(id, product);
             console.log('\n======= Se realizó la actualización de la información del producto sin imágenes =======\n');
             return res.status(201).json({
                 success: true,
-                message: 'El producto se actualizó correctamente'
+                message: 'El producto se actualizó correctamente sin imágenes'
             });
         }
 
-        // Procesa las imágenes si se proporcionan archivos
         let inserts = 0;
-        const data = await Product.updateProduct(id, product);
-
-        const start = async () => {
-            await asyncForEach(files, async (file) => {
-                const pathImage = `image_${Date.now()}`;
-                const url = await storage(file, pathImage);
-
-                if (url !== undefined && url !== null) {
-                    // Guarda la URL de la imagen en el producto según el índice de inserción
-                    switch (inserts) {
-                        case 0:
-                            product.image1 = url;
-                            break;
-                        case 1:
-                            product.image2 = url;
-                            break;
-                        case 2:
-                            product.image3 = url;
-                            break;
-                        case 3:
-                            product.image4 = url;
-                            break;
-                        case 4:
-                            product.image5 = url;
-                            break;
-                        case 5:
-                            product.image6 = url;
-                            break;
-                    }
+        const promises = files.map(async (file, index) => {
+            const pathImage = `image_${Date.now()}`;
+            const url = await storage(file, pathImage);
+            if (url) {
+                switch (index) {
+                    case 0:
+                        product.image1 = url;
+                        break;
+                    case 1:
+                        product.image2 = url;
+                        break;
+                    case 2:
+                        product.image3 = url;
+                        break;
+                    case 3:
+                        product.image4 = url;
+                        break;
+                    case 4:
+                        product.image5 = url;
+                        break;
+                    case 5:
+                        product.image6 = url;
+                        break;
                 }
+            }
+            inserts++;
+            if (inserts === files.length) {
+                const data = await Product.updateProduct(id, product);
+                console.log('\n======= Se realizó la actualización de la información del producto con imágenes =======\n');
+                return res.status(201).json({
+                    success: true,
+                    message: 'El producto se actualizó correctamente con imágenes'
+                });
+            }
+        });
 
-                inserts++;
-                if (inserts === files.length) {
-                    console.log('\n======= Se realizó la actualización de la información del producto con imágenes =======\n');
-                    return res.status(201).json({
-                        success: true,
-                        message: 'El producto se actualizó correctamente'
-                    });
-                }
-            });
-        };
-
-        start();
+        await Promise.all(promises);
     } catch (error) {
         console.error(` ===== Ha ocurrido un error al actualizar la información del producto: ${error} =====`);
         return res.status(501).json({
@@ -268,7 +260,7 @@ async updateProduct(req, res, next) {
             error: error
         });
     }
-},  
+}
   
   
   
