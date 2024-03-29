@@ -263,7 +263,7 @@ User.isPasswordMatched = (userPassword, hash) => {
   
 }
 
-//Enontrar por el id del usuario para validar la creacion del reporte
+//Enontrar por el Id del usuario para validar la creacion del reporte
 User.findUserReportById = (id) => {
   const sql = `
     SELECT * FROM users WHERE id = $1
@@ -271,7 +271,15 @@ User.findUserReportById = (id) => {
   return db.oneOrNone(sql, [id]);
 };
 
+//Enontrar por el Id del agente para validar la creacion del reporte
+User.findAgentReportById = (id) => {
+  const sql = `
+    SELECT * FROM users WHERE id = $1
+  `;
+  return db.oneOrNone(sql, [id]);
+};
 
+//Enontrar por el Email del agente para validar la creacion del reporte
 User.findByEmailAgent = (email) => {
   const sql = 'SELECT * FROM users WHERE email = $1';
   return db.oneOrNone(sql, [email]);
@@ -282,6 +290,7 @@ User.findByPhone = (phone) => {
   return db.oneOrNone(sql, [phone]);
 };
 
+//Enontrar por el id Carnet de Identidad del agente para validar la creacion del reporte
 User.findByIdentityCard = (identity_card) => {
   const sql = 'SELECT * FROM users WHERE identity_card = $1';
   return db.oneOrNone(sql, [identity_card]);

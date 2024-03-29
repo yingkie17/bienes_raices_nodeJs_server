@@ -1,4 +1,6 @@
 const Order = require('../models/order');
+const Address = require('../models/address');
+const Reports = require('../models/reports');
 const OrderHasProducts = require('../models/order_has_product.js');
 
 module.exports = {
@@ -25,15 +27,27 @@ async findByStatus(req, res, next){
   }
 },
   
-  
   //Método para crear Ordenes
   async create(req, res, next){
     try{
       let order = req.body;
+      
+       // Verificar la existencia del tipo de reporte
+    const addressExists = await Address.findAddressById(order.id_address);
+    if (!addressExists) {
+      console.log(`El id de la direccion en la creación de orden no existe, Error: ${order.id_address}`);
+      return res.status(404).json({
+        message: `\ No se pudo obtener la dirección seleccionada`,
+        success: false
+
+      });
+    }
+      
+      
       order.status = 'Espera';
       const data = await Order.create(order);
        
-      // Recorremos todas las propiedades agrgados a la orden
+      // Recorremos todas las propiedades agregados a la orden
        
       for (const product of order.products){
         await OrderHasProducts.create(data.id, product.id, product.quantity);
@@ -45,7 +59,7 @@ async findByStatus(req, res, next){
        console.log('\n========//Método para crear orden ========');
        return res.status(201).json({
         success: true,
-        message: `La ordern fue creado exitosamente`,
+        message: `La orden fue creado exitosamente`,
         data: data.id
        });
     }
@@ -74,7 +88,7 @@ async findByStatus(req, res, next){
        console.log('\n========//Método para actualizar el status del ticket ========');
        return res.status(201).json({
         success: true,
-        message: `El estatus del ticket fue actualizado correctamente`,
+        message: `La orden está en curso`,
        });
     }
     catch(error){
@@ -103,7 +117,7 @@ async findByStatus(req, res, next){
        console.log('\n========//Método para actualizar el status del ticket ========');
        return res.status(201).json({
         success: true,
-        message: `El estatus del ticket fue actualizado correctamente`,
+        message: `El orden esta en negociación`,
        });
     }
     catch(error){
@@ -134,7 +148,7 @@ async findByStatus(req, res, next){
        console.log('\n========//Método para actualizar el status del ticket ========');
        return res.status(201).json({
         success: true,
-        message: `El estatus del ticket fue actualizado correctamente`,
+        message: `La orden fue concretada`,
        });
     }
     catch(error){
@@ -196,7 +210,7 @@ async findByStatus(req, res, next){
        console.log('\n========//Método para actualizar el status del ticket ========');
        return res.status(201).json({
         success: true,
-        message: `El estatus del ticket fue actualizado correctamente`,
+        message: `La orden fue cancelada`,
        });
     }
     catch(error){
@@ -258,8 +272,6 @@ async findByClientAndStatus(req, res, next){
     });
   }
 },
-  
-  
   
   
 }

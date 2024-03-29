@@ -58,4 +58,14 @@ Address.create = (address) => {
     
   ]);
 }
+
+//Enontrar por el id de la dirección para validar la creacion de la orden
+Address.findAddressById = (id) => {
+  const sql = `
+    SELECT * FROM address WHERE id = $1
+  `;
+  return db.oneOrNone(sql, [id]);
+};
+
+
 module.exports = Address;

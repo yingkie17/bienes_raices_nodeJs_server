@@ -168,7 +168,8 @@ Product.update = (product) => {
     	image5 = $20,
     	image6 = $21,
     	id_category = $22,
-    	updated_at = $23 
+    	created_at = $23,
+    	updated_at = $24
     WHERE 
         id = $1
   `;
@@ -195,7 +196,8 @@ Product.update = (product) => {
     	product.image5,
     	product.image6,
     	product.id_category,
-    	new Date() 
+    	new Date(),
+    	new Date()
   ]);
   
 }
@@ -229,7 +231,8 @@ Product.updateProduct = (id, product) => {
     image5 = $20,
     image6 = $21,
     id_category = $22,
-    updated_at = $23
+    created_at = $23,
+    updated_at = $24
   WHERE
     id = $1
   RETURNING id
@@ -257,6 +260,7 @@ Product.updateProduct = (id, product) => {
     product.image5,
     product.image6,
     product.id_category,
+    new Date(),
     new Date()
     
   ]);

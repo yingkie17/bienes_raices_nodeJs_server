@@ -1,5 +1,4 @@
 
-
 const Product = require('../models/product');
 const storage = require('../utils/cloud_storage');
 const asyncForEach = require('../utils/async_foreach');
@@ -128,12 +127,12 @@ module.exports = {
                   await Product.update(product);
                   inserts = inserts +1;
                   if (inserts == files.length){
-                  console.log('\n======= Se realizó el registro de nuevo producto exitosamente =======\n');
-                    ('\n======= //Método para Crear nuevo Producto =======\n')  
+                  console.log('\n======= Se realizó el registro de nuevo producto exitosamente =======\n'); 
                     
                     return res.status(201).json({
                       success: true,
-                      message: 'Le producto se registró correctamente'
+                      message: 'El producto o propiedad se registró correctamente',
+                      data: data.id,
                     });
                   }
               
@@ -207,10 +206,11 @@ async updateProduct(req, res, next) {
     try {
         if (files.length === 0) {
             const data = await Product.updateProduct(id, product);
-            console.log('\n======= Se realizó la actualización de la información del producto sin imágenes =======\n');
+        
             return res.status(201).json({
-                success: true,
-                message: 'El producto se actualizó correctamente sin imágenes'
+              success: true,
+              message: `La orden fue creado exitosamente`,
+              
             });
         }
 
@@ -243,11 +243,14 @@ async updateProduct(req, res, next) {
             inserts++;
             if (inserts === files.length) {
                 const data = await Product.updateProduct(id, product);
-                console.log('\n======= Se realizó la actualización de la información del producto con imágenes =======\n');
-                return res.status(201).json({
-                    success: true,
-                    message: 'El producto se actualizó correctamente con imágenes'
+  
+                 return res.status(201).json({
+                  success: true,
+                  message: `La orden fue creado exitosamente`,
+                  data: data.id
                 });
+                
+                
             }
         });
 
@@ -261,6 +264,7 @@ async updateProduct(req, res, next) {
         });
     }
 }
+
   
   
   

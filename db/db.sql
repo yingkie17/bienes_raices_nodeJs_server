@@ -329,6 +329,7 @@ WHERE
 	  	id BIGSERIAL PRIMARY KEY,
 	  	id_reports BIGINT NOT NULL,
 	  	id_user BIGINT NULL,
+	  	id_agent BIGINT NULL,
 	  	id_product BIGINT NULL,
 	  	name_report VARCHAR(255) NULL,
 		description_report VARCHAR(10000) NULL,
@@ -337,6 +338,7 @@ WHERE
     	updated_at TIMESTAMP (0) NOT NULL,
 	  	FOREIGN KEY(id_reports) REFERENCES reports(id) ON UPDATE CASCADE ON DELETE CASCADE,
 	  	FOREIGN KEY(id_user) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE,
+	  	FOREIGN KEY(id_agent) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE,
 	  	FOREIGN KEY(id_product) REFERENCES products(id) ON UPDATE CASCADE ON DELETE CASCADE
 	  ),
 	  
