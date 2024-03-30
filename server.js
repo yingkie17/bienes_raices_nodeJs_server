@@ -15,6 +15,9 @@ const io = require('socket.io')(server);
 // Sokects 
 const orderDeliverySocket = require('./sockets/orders_delivery_socket');
 
+//Variables de Entorno
+require('dotenv').config();
+
 
 
 
@@ -37,12 +40,7 @@ const address = require('./routes/addressRoutes');
 const orders = require('./routes/ordersRoutes');
 const reports = require('./routes/reportsRoutes');
 
-
-
-
-
-
-const port = process.env.PORT || 3000;
+const port = process.env.PORT;
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded(
@@ -78,13 +76,13 @@ orders(app);
 products(app, upload);
 reports(app);
 
-//Server para Prueba Local
-server.listen(port, '192.168.100.2' || 'localhost', function(){console.log('Backend: ' + 'Servidor Corriendo en el puerto:' + ' ' + port + ' PID ' + process.pid + ' ' + '...');});
 
+//Server para Prueba con variables de entorno 
+
+//Server para Prueba Local sin variable de entorno
+server.listen(port, '192.168.100.2' || 'localhost', function(){console.log('Backend: ' + 'Servidor Corriendo en el puerto:' + ' ' + port + ' PID ' + process.pid + ' ' + '...');});
 //Server en Render
  //server.listen(port, '0.0.0.0', function(){console.log('Backend: ' + 'Servidor Corriendo en el puerto:' + ' ' + port + ' PID ' + process.pid + ' ' + '...');});
-
-
 
 
 // Configuracion de Prueba para Postman de ruta raiz

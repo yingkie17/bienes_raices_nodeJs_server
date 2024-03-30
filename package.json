@@ -4,7 +4,9 @@
   "description": "Backend Node JS\u001b[D\u001b[\u001b[\u001b[\u001b[C\u001b[CJS de Proyecto de Grado Herbert Lee Covarrubias UNANDES\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[D\u001b[C\u001b[C\u001b[C\u001b[C,\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C,\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[D\u001b[D\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[B\u001b[A\u001b\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C\u001b[C Universidad De Los Andes Ing. Sistemas \u001b[D, Bienes Raices.",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "start:dev": "nodemon server.js"
   },
   "keywords": [
     "flutter",
@@ -21,6 +23,7 @@
     "bluebird": "^3.7.2",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
+    "dotenv": "^16.4.5",
     "express": "^4.18.2",
     "express-session": "^1.17.3",
     "firebase-admin": "^11.8.0",
@@ -30,6 +33,6 @@
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "pg-promise": "^11.4.3",
-    "socket.io": "^2.5.0"
+    "socket.io": "^2.1.1"
   }
 }

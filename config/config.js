@@ -22,7 +22,7 @@ module.exports = db;
 
 
 /*
-//======== Configuración para Render Servidor en la Nube
+//======== Configuración para Render Servidor en la Render en la nube
 
 
 const promise = require('bluebird');
