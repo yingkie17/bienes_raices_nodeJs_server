@@ -270,9 +270,16 @@ User.findUserReportById = (id) => {
   `;
   return db.oneOrNone(sql, [id]);
 };
-
-//Enontrar por el Id del agente para validar la creacion del reporte
+//Se valida la existencia del agente para Registrar reportes
 User.findAgentReportById = (id) => {
+  const sql = `
+    SELECT * FROM users WHERE id = $1
+  `;
+  return db.oneOrNone(sql, [id]);
+};
+
+//Se valida la existencia del agente para las estadisticas
+User.findReportsAgentById = (id) => {
   const sql = `
     SELECT * FROM users WHERE id = $1
   `;

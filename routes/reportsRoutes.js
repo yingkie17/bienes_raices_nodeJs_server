@@ -19,9 +19,19 @@ const passport = require('passport');
      // ruta para obtener toda la lista de categorias de servicios
     app.get('/api/reports/getAllReports', passport.authenticate('jwt', {session: false}), ReportsController.getAllReports);
   
-    //ruta para traer lista de reportes
+    //ruta para obtener lista de todos los reportes módulo inmobiliaria
      app.get('/api/reports/findByTypeReport/:id_reports', passport.authenticate('jwt', {session: false}), ReportsController.findByTypeReport);
-        
-              
-  }
+     
+    //ruta para obtener la lista de reportes del agente y el tipo de reporte del módulo de agente
+
+     app.get('/api/reports/getAgentReportsByTypeAndStartEndPeriod/:id_agent/:id_reports/:start_period/:end_period', passport.authenticate('jwt', {session: false}), ReportsController.getAgentReportsByTypeAndStartEndPeriod);      
+    //ruta para obtener todoa los tipos de reporte de agente
+     // ruta para obtener toda la lista de categorias de servicios
+    app.get('/api/reports/findAgentReportByType', passport.authenticate('jwt', {session: false}), ReportsController.findAgentReportByType);
+    
+    //Ruta para obtener el año de reporte
+    app.get('/api/reports/getReportYears', passport.authenticate('jwt', { session: false }), ReportsController.getReportYears);
+    
+    
+      }
   

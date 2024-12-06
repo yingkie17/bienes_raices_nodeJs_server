@@ -313,7 +313,7 @@ WHERE
 	 
 
 	
-	
+	//Tipo de Reporte
 	 DROP TABLE IF EXISTS reports CASCADE;
 	  CREATE TABLE reports( 
 	  	id BIGSERIAL PRIMARY KEY,
@@ -323,10 +323,10 @@ WHERE
     	updated_at TIMESTAMP (0) NOT NULL
 	  ),
 	  
-	  
+	 //Todos los reportes  
 	DROP TABLE IF EXISTS reports_has_report CASCADE;
 	  CREATE TABLE reports_has_report( 
-	  	id BIGSERIAL PRIMARY KEY,
+	  	id BIGSERIAL NOT NULL,
 	  	id_reports BIGINT NOT NULL,
 	  	id_user BIGINT NULL,
 	  	id_agent BIGINT NULL,
@@ -342,3 +342,164 @@ WHERE
 	  	FOREIGN KEY(id_product) REFERENCES products(id) ON UPDATE CASCADE ON DELETE CASCADE
 	  ),
 	  
+	  
+	  
+	  
+	  
+	  //Tabla para estadisticas
+	  
+	  
+	  	  
+	DROP TABLE IF EXISTS statistics CASCADE;
+	  CREATE TABLE statistics(
+	  	id BIGSERIAL PRIMARY KEY,
+	  	id_report BIGINT NOT NULL,
+	  	id_reports_has_report BIGINT NOT NULL,
+	  	id_agent BIGINT NULL,
+	  	ordenes_total INT NULL,
+	  	ordenes_atendidas INT NULL,
+	  	ordenes_canceladas INT NULL,
+	  	ordenes_espera INT NULL,
+	  	ordenes_curso INT NULL,
+	  	ordenes_concretados INT NULL,
+	  	tiempo_promedio_concretado VARCHAR,
+	  	tiempo_promedio_respuesta VARCHAR,
+	  	ratio_exito_negociacion VARCHAR,
+	  	periodo_statistics TIMESTAMP(0) NULL,
+	  	ratio_cancelacion_respecto_atendidas VARCHAR,
+	  	FOREIGN KEY (id_report) REFERENCES reports(id) ON UPDATE CASCADE ON DELETE CASCADE,
+	  	FOREIGN KEY(id_reports_has_report) REFERENCES reports_has_report(id) ON UPDATE CASCADE ON DELETE CASCADE,
+	  	FOREIGN KEY(id_agent) REFERENCES users(id) ON UPDATE CASCADE ON DELETE CASCADE
+	  ),
+	
+	  
+	     
+	//Crear Consulta para obtener reportes del agente 
+	     
+	     //Reportes de agente diario 
+	     
+	     //End of Reportes de agente diario 
+	     
+	     //Reportes de agente semanal
+	     	SELECT
+    				RHR.id,
+    				RHR.id_reports,
+    				RHR.id_agent,
+    				R.name_report AS report_name,
+    				RHR.description_report,
+    				RHR.status_report,
+    				RHR.created_at
+				FROM
+    				reports_has_report AS RHR
+				INNER JOIN
+    				reports AS R
+				ON
+    				RHR.id_reports = R.id
+				WHERE
+    				RHR.id_agent = 1
+    				AND RHR.id_reports = 4
+    				AND date_trunc('week', RHR.created_at) = date_trunc('week'::text, '2024-03-11'::date);
+	     
+	     //End of Report de agemte semanal
+	     
+	     //Reportes de agente mensual
+	     
+	    /*      
+	       SELECT
+    			RHR.id,
+    			RHR.id_reports,
+    			RHR.id_agent,
+    			R.name_report AS report_name,
+    			RHR.description_report,
+    			RHR.status_report,
+    			RHR.created_at
+			FROM
+    			reports_has_report AS RHR
+			INNER JOIN
+    			reports AS R
+			ON
+    			RHR.id_reports = R.id
+			WHERE
+    			RHR.id_agent = 1
+    			AND RHR.id_reports = 4 
+				AND RHR.created_at >= '2024-03-01'
+    			AND RHR.created_at < '2024-04-01';	
+    			
+	   			
+			*/
+			     
+			     
+			 /* Rerporte con la descripcion de Tipo de Reporte 
+			   SELECT
+    			RHR.id,
+    			RHR.id_reports,
+    			RHR.id_agent,
+    			RHR.description_report,
+    			RHR.status_report,
+    			RHR.created_at,
+    			json_agg(
+    				json_build_object(
+    					'type_report', R.name_report,
+    					'description_type_report', R.description_report
+    				)
+    			)as type_report
+			FROM
+    			reports_has_report AS RHR
+			INNER JOIN
+    			reports AS R
+			ON
+    			RHR.id_reports = R.id
+			WHERE
+    			RHR.id_agent = 1
+    			AND RHR.id_reports = 4 
+				AND RHR.created_at >= '2024-03-01'
+    			AND RHR.created_at < '2024-04-01' 
+			GROUP BY 
+    			RHR.id;	  
+			  */   
+			     
+			     
+	       SELECT
+    			RHR.id,
+    			RHR.id_reports,
+    			RHR.id_agent,
+    			RHR.description_report,
+    			RHR.status_report,
+    			RHR.created_at,
+    			json_agg(
+    				json_build_object(
+    					'type_report', R.name_report,
+    					'description_type_report', R.description_report
+    				)
+    			)as type_report
+			FROM
+    			reports_has_report AS RHR
+			INNER JOIN
+    			reports AS R
+			ON
+    			RHR.id_reports = R.id
+			WHERE
+    			RHR.id_agent = $1
+    			AND RHR.id_reports = $2 
+				AND RHR.created_at >= $3
+    			AND RHR.created_at < $4
+			GROUP BY 
+    			RHR.id;		
+    			
+    			
+    			
+	   		// end of Reportes de agente mensual	
+	   		
+	   		//Reportes de agente Trimestral
+			
+			//End of Reportes de agente Trimestral
+	   		
+	   		//Reportes de agente Semestral	 
+	   		  			   		
+	   		//End of Reportes de agente Semestral
+	   		
+	   		//Reportes de agente Anual
+	   		
+	   		//End of Reportes de agente Anual
+	   		
+			

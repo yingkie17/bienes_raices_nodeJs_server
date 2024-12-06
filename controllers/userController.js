@@ -56,10 +56,7 @@ module.exports ={
    async findAgent(req, res, next){
     try{
       const data = await User.findAgent();
-      console.log(`\n ======= Obteniendo lista de agentes ======= \n`);
-      const formattedData = JSON.stringify(data, null, 1).replace(/,/g, ',\n');
-      console.log(formattedData);
-      console.log(`\n ======= // Obteniendo lista de agentes ======= \n`);
+  
       return res.status(201).json(data);
       
     }

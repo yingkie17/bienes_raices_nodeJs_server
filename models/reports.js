@@ -42,13 +42,30 @@ Reports.create = (reportData) => {
   
 }
 
-//Enontrar por el id el reports para validar la creacion del reporte
+
+//Encontrar por el id el reports para validar la creacion del reporte
 Reports.findReportById = (id) => {
   const sql = `
     SELECT * FROM reports WHERE id = $1
   `;
   return db.oneOrNone(sql, [id]);
 };
+
+//Encontrar tipo de reporte para el agente inmobiliario
+Reports.findAgentReportByType = () => {
+  const sql = `
+    SELECT
+      R.id,
+      R.name_report,
+      R.description_report
+    FROM 
+     reports AS R
+    ORDER BY
+      name_report
+  `;
+  return db.manyOrNone(sql);
+}
+
 
 module.exports = Reports;
 

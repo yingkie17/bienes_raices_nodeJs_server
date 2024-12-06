@@ -1,7 +1,10 @@
 const express = require('express');
+require('dotenv').config();
 const app = express();
+const path = require('path');
 const http = require('http');
 const server = http.createServer(app);
+const io = require('socket.io')(server);
 const logger = require('morgan');
 const cors = require('cors');
 const multer = require('multer');
@@ -10,15 +13,34 @@ const serviceAccount = require('./serviceAccountKey.json');
 const passport = require('passport');
 const session = require('express-session');
 const Keys = require('./config/keys');
-const io = require('socket.io')(server);
+
 
 // Sokects 
 const orderDeliverySocket = require('./sockets/orders_delivery_socket');
+const statsMetricsSocket = require('./sockets/stats_metrics_socket');
 
-//Variables de Entorno
-require('dotenv').config();
+//Mesajes del Sockets
+io.on('connection', client => {
+  console.log('Cliente Conectado');
+  client.on('disconnect', () => { console.log('Cliente Desconectado'); });
+  
+  client.on('mensaje', (payload) => {
+    console.log('Mensaje', payload);
+    io.emit('mensaje', {admin: 'Nuevo Mensaje'});
+  });
+  
+  
+  client.on('emitir-mensaje', (payload) => {
+    console.log('emitir-mensaje', payload);
+    io.emit('nuevo-mensaje', 'Nuevo Mensaje para flutter');
+  });
+  
+});
+//End of Mesajes del Sockets
 
-
+//Caperta Public
+ const publicPath = path.resolve(__dirname, 'public');
+ app.use(express.static(publicPath));
 
 
 /*Inicializando Firebase Admin*/
@@ -39,6 +61,7 @@ const products = require('./routes/productsRoutes');
 const address = require('./routes/addressRoutes');
 const orders = require('./routes/ordersRoutes');
 const reports = require('./routes/reportsRoutes');
+const statistics = require('./routes/statisticsRoutes');
 
 const port = process.env.PORT;
 app.use(logger('dev'));
@@ -68,6 +91,8 @@ app.set('port', port);
 
 /* Llamando al socket*/
 orderDeliverySocket(io);
+statsMetricsSocket(io);
+
 /* Llamando a las Rutas*/
 users(app, upload);
 categories(app);
@@ -75,12 +100,15 @@ address(app);
 orders(app);
 products(app, upload);
 reports(app);
+statistics(app);
 
 
 //Server para Prueba con variables de entorno 
 
 //Server para Prueba Local sin variable de entorno
-server.listen(port, '192.168.100.2' || 'localhost', function(){console.log('Backend: ' + 'Servidor Corriendo en el puerto:' + ' ' + port + ' PID ' + process.pid + ' ' + '...');});
+server.listen(port, '192.168.1.13' || 'localhost', function(err){
+   if(err) throw new Error(err);
+  console.log('Backend: ' + 'Servidor Corriendo en el puerto:' + ' ' + port + ' PID ' + process.pid + ' ' + '...');});
 //Server en Render
  //server.listen(port, '0.0.0.0', function(){console.log('Backend: ' + 'Servidor Corriendo en el puerto:' + ' ' + port + ' PID ' + process.pid + ' ' + '...');});
 
